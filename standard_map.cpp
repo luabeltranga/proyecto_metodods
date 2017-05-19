@@ -6,7 +6,7 @@
 #include <fstream>
 #include <vector>
 
-const double K = 0.1;
+const double K = 0.99;
 const double TAU = 2*M_PI;
 const int TIME = 5000 ;
 const int N = 100;
@@ -23,6 +23,7 @@ int main(void){
   std::ofstream datos;
 
   std::vector<double> point (2);
+  std::vector<double> momentum( );
 
   datos.open("chaos_map.dat");
   for(int ii = 0; ii < N ; ii++){
