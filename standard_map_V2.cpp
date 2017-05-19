@@ -5,29 +5,35 @@
 #include <random>
 #include <fstream>
 #include <vector>
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
 
-const double K = 0.1;
+const double K = 1.0;
 const double TAU = 2*M_PI;
-const int TIME = 5000 ;
+const int TIME = 10000 ;
 const int N = 100;
 
-
 void time_step(std::vector<double> & point0);
-double custom_mod(double x);
-int main(void){
+double decimal_part(double x );
 
-  std::mt19937_64 gen(10000); 
-  std::uniform_real_distribution<> dis(0, 1);
+int main(void){
+  
+  // GSL's Taus generator:
+  gsl_rng *rng = gsl_rng_alloc(gsl_rng_taus2);
+  // Initialize the GSL generator with time:
+  gsl_rng_set(rng, 1000); // Seed with time
+  
+ 
   std::cout.precision(16);
   std::cout.setf(std::ios::scientific);
   std::ofstream datos;
 
   std::vector<double> point (2);
-
+  
   datos.open("chaos_map.dat");
   for(int ii = 0; ii < N ; ii++){
-    point[0] = dis(gen);
-    point[1] = dis(gen);
+    point[0] = gsl_rng_uniform(rng);
+    point[1] = gsl_rng_uniform(rng);
     datos << point[0] << " " << point[1] << std::endl;        
     for(int jj = 0; jj < TIME ; jj++){
       time_step(point);
@@ -40,18 +46,15 @@ int main(void){
   
 }
 
-
 void time_step(std::vector<double> & point0){
   
-  point0[1] = custom_mod(point0[1] + K/TAU*std::sin(TAU*point0[0])) ;
-  point0[0] = custom_mod(point0[0] + point0[1]);
+  point0[1] = decimal_part(point0[1] + K/TAU*std::sin(TAU*point0[0]) );
+
+  point0[0] = decimal_part(point0[0] + point0[1]);
 }
 
-double custom_mod(double x){
-  if (x >= 0){
-    return std::fmod(x,1);
-  }
-  if (x < 0){
-    return 1-std::fmod(-x,1);
-  }
+double decimal_part(double x ){
+  int x_tmp = x;
+  if(x>0)return x - x_tmp;
+  if(x<=0)return  x_tmp - x;
 }
