@@ -31,15 +31,14 @@ int main(void){
   point[0] = 0.8;
   point[1] = 0.2;
   momentum[0] = point[1];
-  double K = 5.0;
+  double K = 1.0;
   for(int ii = 0; ii < 1; ii++ ){
     for(int jj = 0; jj < TIME ; jj++){
       time_step(point,K);
       momentum[jj+1] = point[1];
       position[jj+1] = point[0];
       //    std::cout<< position[jj+1] << " " << momentum[jj+1] << std::endl;
-      //std::cout<<jj+1<< " " << std::fabs(gsl_stats_lag1_autocorrelation(momentum, 1, jj+1)-gsl_stats_mean(momentum, 1, jj+1)/gsl_stats_variance(momentum, 1, jj+1)) << std::endl;
-      std::cout<<jj+1<< " " <<   << std::endl;
+      std::cout<<jj+1<< " " << std::fabs(gsl_stats_lag1_autocorrelation(momentum, 1, jj+1)-gsl_stats_mean(momentum, 1, jj+1)/gsl_stats_variance(momentum, 1, jj+1)) << std::endl;
       
     }
     
