@@ -1,5 +1,5 @@
 GCC=g++
-FLAGS=-fsanitize=leak -fsanitize=undefined -fsanitize=address -Wall
+FLAGS=-fsanitize=leak -fsanitize=undefined -fsanitize=address -Wall -std=c++11
 #FLAGS=-ggdb -g
 
 #FLAGS=-g -ggdb
