@@ -6,7 +6,7 @@
 
 const double K = 10.0;
 const double TAU = 2*M_PI;
-const int TIME = 500;
+const int TIME = 51;
 const int N = 1;
 
 
@@ -28,10 +28,11 @@ int main(void){
   datos.open("chaos_map.dat");
   for(int ii = 0; ii < N ; ii++){
     //q
-    point[0] = dis(gen);
+    //point[0] = dis(gen);
     //p
-    point[1] = dis(gen);
-    
+    //point[1] = dis(gen);
+    point[0] = 0.1;
+    point[1] = 0.2;
     momentum[0] = point[1];  
     
     datos << point[0] << " " << point[1]  << " " << momentum[0] << std::endl;        
@@ -70,7 +71,7 @@ void autocorrelation(std::vector<double> & momentum){
   std::ofstream autocorr ;
   double mean = std::accumulate(momentum.begin(),momentum.end(),0.0)/N;
   autocorr.open("corr.dat");
-  for(int tau = 0 ; tau < N-1; tau++){
+  for(int tau = 0 ; tau < (N-1)/2.0; tau++){
     for(int t = 0 ; t < N-1-tau ; t++){
       sum += momentum[t]*momentum[t+tau];
     }
